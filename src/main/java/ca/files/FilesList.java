@@ -51,5 +51,14 @@ public class FilesList {
 					.forEach(event -> System.out.println(event.context()));
 		}
 		
+		Stream.of("/src", "/bin")
+			.map(p -> {
+				try {
+					return new File(p).getCanonicalPath();
+				} catch(IOException e) {
+					return e.getMessage();
+				}
+			}).forEach(System.out::println);
+		
 	}
 }
