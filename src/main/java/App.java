@@ -22,29 +22,32 @@ public class App {
 	
     public static void main(String[] args) {
     
-    	final List<BigDecimal> coordinates =Arrays.asList(new BigDecimal("50")
-														  , new BigDecimal("500")
-														  , new BigDecimal("30")
-														  , new BigDecimal("100")
-														  , new BigDecimal("1200")
-														  , new BigDecimal("800")); 
+    	final List<BigDecimal> coordinates = 
+    			Arrays.asList(new BigDecimal("50")
+					  , new BigDecimal("500")
+					  , new BigDecimal("30")
+					  , new BigDecimal("100")
+					  , new BigDecimal("1200")
+					  , new BigDecimal("800")); 
 
     	
-    	final BigDecimal intersection = coordinates.stream()
-    												.filter(c->c.compareTo(BigDecimal.valueOf(300)) > 0)
-    												.map(c -> c.multiply(BigDecimal.valueOf(1.1)))
-    												.reduce(BigDecimal.ZERO, BigDecimal::add);
+    	final BigDecimal intersection =
+    			coordinates.stream()
+					.filter(c->c.compareTo(BigDecimal.valueOf(300)) > 0)
+					.map(c -> c.multiply(BigDecimal.valueOf(1.1)))
+					.reduce(BigDecimal.ZERO, BigDecimal::add);
     	
     	System.out.println(intersection);
     	
-    	final List<String> amis = Arrays.asList(" Jeckie"
-    											, " Solomon"
-    											, " Denys"
-    											, " Jess"
-    											, " Ted"
-    											, " Aniss"
-    											, " Lucky"
-    											, " Jeck");
+    	final List<String> amis =
+    			Arrays.asList(" Jeckie"
+					, " Solomon"
+					, " Denys"
+					, " Jess"
+					, " Ted"
+					, " Aniss"
+					, " Lucky"
+					, " Jeck");
     	
     	List<String> amiAnglais = amis.stream()
     		.filter(startsWith)
@@ -55,9 +58,10 @@ public class App {
         		.filter(checkIfStartsWith("J"))
         		.count();
         	
-    	ConcurrentMap<Integer, String> amisMap = amis.stream()
-    												.filter(startsWithLetter.apply("J"))
-    												.collect(Collectors.toConcurrentMap(String::length, n->n.trim(), (n1, n2) -> n1 + "," + n2));
+    	ConcurrentMap<Integer, String> amisMap =
+    			amis.stream()
+					.filter(startsWithLetter.apply("J"))
+					.collect(Collectors.toConcurrentMap(String::length, n->n.trim(), (n1, n2) -> n1 + "," + n2));
     	
     	System.out.println("Amis form List : " + amiAnglais + " - in total : " + amisQuantity);
     	
@@ -65,9 +69,10 @@ public class App {
     	
     	String startingLetter = "X";
     	
-    	final Optional<String> whenNothingFound = amis.stream()
-    												  .filter(startsWithLetter.apply(startingLetter))
-    												  .findFirst();
+    	final Optional<String> whenNothingFound =
+    			amis.stream()
+					  .filter(startsWithLetter.apply(startingLetter))
+					  .findFirst();
     	
     	System.out.println(String.format("Amis starting with %s is : %s", startingLetter, whenNothingFound.orElse("No ami found")));
     	
@@ -79,14 +84,16 @@ public class App {
     	
     	// reduce the List : to take total sum
     	
-    	System.out.printf("Total length of all amis is %d\n", amis.stream()
-    															.mapToInt(String::length)
-    															.sum());
+    	System.out.printf("Total length of all amis is %d\n"
+    			, amis.stream()
+						.mapToInt(String::length)
+						.sum());
     	
     	// reduce the List : to take the longest name
     	
-    	Optional<String> longestName = amis.stream()
-    									   .reduce((n1, n2) -> (n1.length() >= n2.length()) ? n1 : n2);
+    	Optional<String> longestName =
+    			amis.stream()
+    				.reduce((n1, n2) -> (n1.length() >= n2.length()) ? n1 : n2);
     	
     	longestName.ifPresent(ami -> System.out.println(String.format("Ami with the longest name is %s", ami.trim())));
 
@@ -96,8 +103,10 @@ public class App {
     	longestName.get().chars().skip(1).forEach(ch -> System.out.print(ch + " "));
     	System.out.println();
     	
-    	String predefindLongestName = amis.stream()
-    									  .reduce("AmiWithLongestName", (n1, n2) -> (n1.length() >= n2.length()) ? n1 : n2);
+    	String predefindLongestName =
+    			amis.stream()
+    				.reduce("AmiWithLongestName",
+    						  (n1, n2) -> (n1.length() >= n2.length()) ? n1 : n2);
     	
     	System.out.println(String.format("Longest name with predifind one is  : %s", predefindLongestName));
     	
